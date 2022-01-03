@@ -19,6 +19,7 @@
  */
 
 App::uses('AppController', 'Controller');
+App::uses('Sanitize', 'Utility');
 
 /**
  * Static content controller
@@ -35,7 +36,8 @@ class PagesController extends AppController {
  *
  * @var array
  */
-	public $uses = array();
+// 	public $uses = array();
+    public $uses = null;
 
 /**
  * Displays a view
@@ -77,4 +79,18 @@ class PagesController extends AppController {
 			throw new NotFoundException();
 		}
 	}
+	
+	public function index() {
+	    
+	    $this->loadModel('Page');
+	    $user = $this->Page->find('all');
+	    
+	    if ($this->request->is('post')) {
+	        $user = $this->request->data['first'];
+	    } else {
+// 	        $user = 'データがありません';
+	    }
+	    $this->set("user", $user);
+	}
+
 }
